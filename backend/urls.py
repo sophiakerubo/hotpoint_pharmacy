@@ -17,26 +17,23 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from django.http import HttpResponse
 from rest_framework.routers import DefaultRouter
-from pharmacy.views import ProductViewSet, test_view # Import your pharmacy app
-from django.urls import path, include
+from pharmacy.views import ProductViewSet, test_view
+from django.http import HttpResponse
 
-urlpatterns = [
-    path('api/auth',
-         include('auth.urls'))
-]
-
+# Initialize router for ViewSets
 router = DefaultRouter()
-router.register(r'products', ProductViewSet)  # Replace 'items' with your model name
+router.register(r'products', ProductViewSet)
 
+# Define home view
 def home(request):
     return HttpResponse("Welcome to Hotpoint Pharmacy!")
 
+# Final urlpatterns list (merged)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name="home"),
-    path('api/', include(router.urls)),  # Ensure router has registered viewsets
-  
-   path('api/test/', test_view, name='test-view')
+    path('api/auth/', include('auth.urls')),  # Ensure 'auth' app exists and has a urls.py file
+    path('api/', include(router.urls)),  # Include DRF router URLs
+    path('api/test/', test_view, name='test-view'),
 ]
