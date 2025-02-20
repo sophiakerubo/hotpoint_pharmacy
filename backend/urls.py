@@ -33,7 +33,8 @@ def home(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name="home"),
-    path('api/auth/', include('auth.urls')),  # Ensure 'auth' app exists and has a urls.py file
+    path('api/auth/', include('authentication.urls')),  # Ensure 'authentication' app exists and has a urls.py file
     path('api/', include(router.urls)),  # Include DRF router URLs
     path('api/test/', test_view, name='test-view'),
+    path('api/', include('products.urls')),
 ]
